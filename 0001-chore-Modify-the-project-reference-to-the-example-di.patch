@@ -1,0 +1,791 @@
+From 065bccce36b3c5c49520b5dc95d8e555253e8e34 Mon Sep 17 00:00:00 2001
+From: Wjinlei <freebufer.wang@gmail.com>
+Date: Fri, 17 Feb 2023 14:46:19 +0800
+Subject: [PATCH 1/2] chore: Modify the project reference to the example
+ directory.
+
+---
+ src/config/router.config.js               | 331 +---------------------
+ src/mock/index.js                         |  12 +-
+ src/mock/services/article.js              |   2 +-
+ src/mock/services/auth.js                 |   2 +-
+ src/mock/services/manage.js               |   2 +-
+ src/mock/services/other.js                |   2 +-
+ src/mock/services/tagCloud.js             |   2 +-
+ src/mock/services/user.js                 |   2 +-
+ src/router/generator-routers.js           |  66 ++---
+ src/store/modules/user.js                 |   2 +-
+ src/utils/request.js                      |  13 +
+ src/views/Dashboard.vue                   |  13 +
+ src/views/account/center/page/Article.vue |   2 +-
+ src/views/dashboard/Workplace.vue         |   2 +-
+ src/views/list/QueryList.vue              |   4 +-
+ src/views/list/TableList.vue              |   2 +-
+ src/views/list/table/List.vue             |   2 +-
+ src/views/other/TreeList.vue              |   2 +-
+ src/views/other/UserList.vue              |   2 +-
+ src/views/other/modules/RoleModal.vue     |   2 +-
+ src/views/user/Login.vue                  |   2 +-
+ src/views/user/Register.vue               |   2 +-
+ 22 files changed, 95 insertions(+), 376 deletions(-)
+ create mode 100644 src/views/Dashboard.vue
+
+diff --git a/src/config/router.config.js b/src/config/router.config.js
+index fb0f7cd..cba86af 100644
+--- a/src/config/router.config.js
++++ b/src/config/router.config.js
+@@ -1,11 +1,5 @@
+ // eslint-disable-next-line
+-import { UserLayout, BasicLayout, BlankLayout } from '@/layouts'
+-import { bxAnaalyse } from '@/core/icons'
+-
+-const RouteView = {
+-  name: 'RouteView',
+-  render: h => h('router-view')
+-}
++import { UserLayout, BasicLayout } from '@/layouts'
+ 
+ export const asyncRouterMap = [
+   {
+@@ -13,324 +7,15 @@ export const asyncRouterMap = [
+     name: 'index',
+     component: BasicLayout,
+     meta: { title: 'menu.home' },
+-    redirect: '/dashboard/workplace',
++    redirect: '/dashboard',
+     children: [
+       // dashboard
+       {
+         path: '/dashboard',
+         name: 'dashboard',
+-        redirect: '/dashboard/workplace',
+-        component: RouteView,
+-        meta: { title: 'menu.dashboard', keepAlive: true, icon: bxAnaalyse, permission: ['dashboard'] },
+-        children: [
+-          {
+-            path: '/dashboard/analysis/:pageNo([1-9]\\d*)?',
+-            name: 'Analysis',
+-            component: () => import('@/views/dashboard/Analysis'),
+-            meta: { title: 'menu.dashboard.analysis', keepAlive: false, permission: ['dashboard'] }
+-          },
+-          // 外部链接
+-          // {
+-          //   path: 'https://www.baidu.com/',
+-          //   name: 'Monitor',
+-          //   meta: { title: 'menu.dashboard.monitor', target: '_blank' }
+-          // },
+-          {
+-            path: '/dashboard/workplace',
+-            name: 'Workplace',
+-            component: () => import('@/views/dashboard/Workplace'),
+-            meta: { title: 'menu.dashboard.workplace', keepAlive: true, permission: ['dashboard'] }
+-          }
+-        ]
+-      },
+-      // forms
+-      {
+-        path: '/form',
+-        redirect: '/form/base-form',
+-        component: RouteView,
+-        meta: { title: 'menu.form', icon: 'form', permission: ['form'] },
+-        children: [
+-          {
+-            path: '/form/base-form',
+-            name: 'BaseForm',
+-            component: () => import('@/views/form/basicForm'),
+-            meta: { title: 'menu.form.basic-form', keepAlive: true, permission: ['form'] }
+-          },
+-          {
+-            path: '/form/step-form',
+-            name: 'StepForm',
+-            component: () => import('@/views/form/stepForm/StepForm'),
+-            meta: { title: 'menu.form.step-form', keepAlive: true, permission: ['form'] }
+-          },
+-          {
+-            path: '/form/advanced-form',
+-            name: 'AdvanceForm',
+-            component: () => import('@/views/form/advancedForm/AdvancedForm'),
+-            meta: { title: 'menu.form.advanced-form', keepAlive: true, permission: ['form'] }
+-          }
+-        ]
+-      },
+-      // list
+-      {
+-        path: '/list',
+-        name: 'list',
+-        component: RouteView,
+-        redirect: '/list/table-list',
+-        meta: { title: 'menu.list', icon: 'table', permission: ['table'] },
+-        children: [
+-          {
+-            path: '/list/table-list/:pageNo([1-9]\\d*)?',
+-            name: 'TableListWrapper',
+-            hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
+-            component: () => import('@/views/list/TableList'),
+-            meta: { title: 'menu.list.table-list', keepAlive: true, permission: ['table'] }
+-          },
+-          {
+-            path: '/list/basic-list',
+-            name: 'BasicList',
+-            component: () => import('@/views/list/BasicList'),
+-            meta: { title: 'menu.list.basic-list', keepAlive: true, permission: ['table'] }
+-          },
+-          {
+-            path: '/list/card',
+-            name: 'CardList',
+-            component: () => import('@/views/list/CardList'),
+-            meta: { title: 'menu.list.card-list', keepAlive: true, permission: ['table'] }
+-          },
+-          {
+-            path: '/list/search',
+-            name: 'SearchList',
+-            component: () => import('@/views/list/search/SearchLayout'),
+-            redirect: '/list/search/article',
+-            meta: { title: 'menu.list.search-list', keepAlive: true, permission: ['table'] },
+-            children: [
+-              {
+-                path: '/list/search/article',
+-                name: 'SearchArticles',
+-                component: () => import('../views/list/search/Article'),
+-                meta: { title: 'menu.list.search-list.articles', permission: ['table'] }
+-              },
+-              {
+-                path: '/list/search/project',
+-                name: 'SearchProjects',
+-                component: () => import('../views/list/search/Projects'),
+-                meta: { title: 'menu.list.search-list.projects', permission: ['table'] }
+-              },
+-              {
+-                path: '/list/search/application',
+-                name: 'SearchApplications',
+-                component: () => import('../views/list/search/Applications'),
+-                meta: { title: 'menu.list.search-list.applications', permission: ['table'] }
+-              }
+-            ]
+-          }
+-        ]
+-      },
+-
+-      // profile
+-      {
+-        path: '/profile',
+-        name: 'profile',
+-        component: RouteView,
+-        redirect: '/profile/basic',
+-        meta: { title: 'menu.profile', icon: 'profile', permission: ['profile'] },
+-        children: [
+-          {
+-            path: '/profile/basic',
+-            name: 'ProfileBasic',
+-            component: () => import('@/views/profile/basic'),
+-            meta: { title: 'menu.profile.basic', permission: ['profile'] }
+-          },
+-          {
+-            path: '/profile/advanced',
+-            name: 'ProfileAdvanced',
+-            component: () => import('@/views/profile/advanced/Advanced'),
+-            meta: { title: 'menu.profile.advanced', permission: ['profile'] }
+-          }
+-        ]
+-      },
+-
+-      // result
+-      {
+-        path: '/result',
+-        name: 'result',
+-        component: RouteView,
+-        redirect: '/result/success',
+-        meta: { title: 'menu.result', icon: 'check-circle-o', permission: ['result'] },
+-        children: [
+-          {
+-            path: '/result/success',
+-            name: 'ResultSuccess',
+-            component: () => import(/* webpackChunkName: "result" */ '@/views/result/Success'),
+-            meta: { title: 'menu.result.success', keepAlive: false, hiddenHeaderContent: true, permission: ['result'] }
+-          },
+-          {
+-            path: '/result/fail',
+-            name: 'ResultFail',
+-            component: () => import(/* webpackChunkName: "result" */ '@/views/result/Error'),
+-            meta: { title: 'menu.result.fail', keepAlive: false, hiddenHeaderContent: true, permission: ['result'] }
+-          }
+-        ]
+-      },
+-
+-      // Exception
+-      {
+-        path: '/exception',
+-        name: 'exception',
+-        component: RouteView,
+-        redirect: '/exception/403',
+-        meta: { title: 'menu.exception', icon: 'warning', permission: ['exception'] },
+-        children: [
+-          {
+-            path: '/exception/403',
+-            name: 'Exception403',
+-            component: () => import(/* webpackChunkName: "fail" */ '@/views/exception/403'),
+-            meta: { title: 'menu.exception.not-permission', permission: ['exception'] }
+-          },
+-          {
+-            path: '/exception/404',
+-            name: 'Exception404',
+-            component: () => import(/* webpackChunkName: "fail" */ '@/views/exception/404'),
+-            meta: { title: 'menu.exception.not-find', permission: ['exception'] }
+-          },
+-          {
+-            path: '/exception/500',
+-            name: 'Exception500',
+-            component: () => import(/* webpackChunkName: "fail" */ '@/views/exception/500'),
+-            meta: { title: 'menu.exception.server-error', permission: ['exception'] }
+-          }
+-        ]
+-      },
+-
+-      // account
+-      {
+-        path: '/account',
+-        component: RouteView,
+-        redirect: '/account/center',
+-        name: 'account',
+-        meta: { title: 'menu.account', icon: 'user', keepAlive: true, permission: ['user'] },
+-        children: [
+-          {
+-            path: '/account/center',
+-            name: 'center',
+-            component: () => import('@/views/account/center'),
+-            meta: { title: 'menu.account.center', keepAlive: true, permission: ['user'] }
+-          },
+-          {
+-            path: '/account/settings',
+-            name: 'settings',
+-            component: () => import('@/views/account/settings/Index'),
+-            meta: { title: 'menu.account.settings', hideHeader: true, permission: ['user'] },
+-            redirect: '/account/settings/basic',
+-            hideChildrenInMenu: true,
+-            children: [
+-              {
+-                path: '/account/settings/basic',
+-                name: 'BasicSettings',
+-                component: () => import('@/views/account/settings/BasicSetting'),
+-                meta: { title: 'account.settings.menuMap.basic', hidden: true, permission: ['user'] }
+-              },
+-              {
+-                path: '/account/settings/security',
+-                name: 'SecuritySettings',
+-                component: () => import('@/views/account/settings/Security'),
+-                meta: {
+-                  title: 'account.settings.menuMap.security',
+-                  hidden: true,
+-                  keepAlive: true,
+-                  permission: ['user']
+-                }
+-              },
+-              {
+-                path: '/account/settings/custom',
+-                name: 'CustomSettings',
+-                component: () => import('@/views/account/settings/Custom'),
+-                meta: { title: 'account.settings.menuMap.custom', hidden: true, keepAlive: true, permission: ['user'] }
+-              },
+-              {
+-                path: '/account/settings/binding',
+-                name: 'BindingSettings',
+-                component: () => import('@/views/account/settings/Binding'),
+-                meta: { title: 'account.settings.menuMap.binding', hidden: true, keepAlive: true, permission: ['user'] }
+-              },
+-              {
+-                path: '/account/settings/notification',
+-                name: 'NotificationSettings',
+-                component: () => import('@/views/account/settings/Notification'),
+-                meta: {
+-                  title: 'account.settings.menuMap.notification',
+-                  hidden: true,
+-                  keepAlive: true,
+-                  permission: ['user']
+-                }
+-              }
+-            ]
+-          }
+-        ]
+-      }
+-
+-      // other
+-      /*
+-      {
+-        path: '/other',
+-        name: 'otherPage',
+-        component: PageView,
+-        meta: { title: '其他组件', icon: 'slack', permission: [ 'dashboard' ] },
+-        redirect: '/other/icon-selector',
+-        children: [
+-          {
+-            path: '/other/icon-selector',
+-            name: 'TestIconSelect',
+-            component: () => import('@/views/other/IconSelectorView'),
+-            meta: { title: 'IconSelector', icon: 'tool', keepAlive: true, permission: [ 'dashboard' ] }
+-          },
+-          {
+-            path: '/other/list',
+-            component: RouteView,
+-            meta: { title: '业务布局', icon: 'layout', permission: [ 'support' ] },
+-            redirect: '/other/list/tree-list',
+-            children: [
+-              {
+-                path: '/other/list/tree-list',
+-                name: 'TreeList',
+-                component: () => import('@/views/other/TreeList'),
+-                meta: { title: '树目录表格', keepAlive: true }
+-              },
+-              {
+-                path: '/other/list/edit-table',
+-                name: 'EditList',
+-                component: () => import('@/views/other/TableInnerEditList'),
+-                meta: { title: '内联编辑表格', keepAlive: true }
+-              },
+-              {
+-                path: '/other/list/user-list',
+-                name: 'UserList',
+-                component: () => import('@/views/other/UserList'),
+-                meta: { title: '用户列表', keepAlive: true }
+-              },
+-              {
+-                path: '/other/list/role-list',
+-                name: 'RoleList',
+-                component: () => import('@/views/other/RoleList'),
+-                meta: { title: '角色列表', keepAlive: true }
+-              },
+-              {
+-                path: '/other/list/system-role',
+-                name: 'SystemRole',
+-                component: () => import('@/views/role/RoleList'),
+-                meta: { title: '角色列表2', keepAlive: true }
+-              },
+-              {
+-                path: '/other/list/permission-list',
+-                name: 'PermissionList',
+-                component: () => import('@/views/other/PermissionList'),
+-                meta: { title: '权限列表', keepAlive: true }
+-              }
+-            ]
+-          }
+-        ]
++        component: () => import('@/views/Dashboard'),
++        meta: { title: 'menu.dashboard', keepAlive: true, permission: ['dashboard'] }
+       }
+-      */
+     ]
+   },
+   {
+@@ -374,8 +59,16 @@ export const constantRouterMap = [
+     ]
+   },
+ 
++  {
++    path: '/403',
++    component: () => import(/* webpackChunkName: "fail" */ '@/views/exception/403')
++  },
+   {
+     path: '/404',
+     component: () => import(/* webpackChunkName: "fail" */ '@/views/exception/404')
++  },
++  {
++    path: '/500',
++    component: () => import(/* webpackChunkName: "fail" */ '@/views/exception/500')
+   }
+ ]
+diff --git a/src/mock/index.js b/src/mock/index.js
+index acb735f..4782a32 100644
+--- a/src/mock/index.js
++++ b/src/mock/index.js
+@@ -9,12 +9,12 @@ if (process.env.NODE_ENV !== 'production' || process.env.VUE_APP_PREVIEW === 'tr
+   // 防止 vuex 中的 GetInfo 早于 mock 运行，导致无法 mock 请求返回结果
+   console.log('[antd-pro] mock mounting')
+   const Mock = require('mockjs2')
+-  require('./services/auth')
+-  require('./services/user')
+-  require('./services/manage')
+-  require('./services/other')
+-  require('./services/tagCloud')
+-  require('./services/article')
++  require('./services/example/auth')
++  require('./services/example/user')
++  // require('./services/example/manage')
++  // require('./services/example/other')
++  // require('./services/example/tagCloud')
++  // require('./services/example/article')
+ 
+   Mock.setup({
+     timeout: 800 // setter delay time
+diff --git a/src/mock/services/article.js b/src/mock/services/article.js
+index 57199ef..3b9b272 100644
+--- a/src/mock/services/article.js
++++ b/src/mock/services/article.js
+@@ -1,5 +1,5 @@
+ import Mock from 'mockjs2'
+-import { builder, getQueryParameters } from '../util'
++import { builder, getQueryParameters } from '../../util'
+ 
+ const titles = [
+   'Alipay',
+diff --git a/src/mock/services/auth.js b/src/mock/services/auth.js
+index 94be65e..bf91b6c 100644
+--- a/src/mock/services/auth.js
++++ b/src/mock/services/auth.js
+@@ -1,5 +1,5 @@
+ import Mock from 'mockjs2'
+-import { builder, getBody } from '../util'
++import { builder, getBody } from '../../util'
+ 
+ const username = ['admin', 'super']
+ // 强硬要求 ant.design 相同密码
+diff --git a/src/mock/services/manage.js b/src/mock/services/manage.js
+index 10181ec..269ccd5 100644
+--- a/src/mock/services/manage.js
++++ b/src/mock/services/manage.js
+@@ -1,5 +1,5 @@
+ import Mock from 'mockjs2'
+-import { builder, getQueryParameters } from '../util'
++import { builder, getQueryParameters } from '../../util'
+ 
+ const totalCount = 5701
+ 
+diff --git a/src/mock/services/other.js b/src/mock/services/other.js
+index 56e2dd9..b8edb64 100644
+--- a/src/mock/services/other.js
++++ b/src/mock/services/other.js
+@@ -1,5 +1,5 @@
+ import Mock from 'mockjs2'
+-import { builder } from '../util'
++import { builder } from '../../util'
+ 
+ const orgTree = () => {
+   return builder([{
+diff --git a/src/mock/services/tagCloud.js b/src/mock/services/tagCloud.js
+index 63a2e06..ed0b2be 100644
+--- a/src/mock/services/tagCloud.js
++++ b/src/mock/services/tagCloud.js
+@@ -1,5 +1,5 @@
+ import Mock from 'mockjs2'
+-import { builder } from '../util'
++import { builder } from '../../util'
+ 
+ //
+ const tagCloudData = () => {
+diff --git a/src/mock/services/user.js b/src/mock/services/user.js
+index e4451ba..4325ca1 100644
+--- a/src/mock/services/user.js
++++ b/src/mock/services/user.js
+@@ -1,5 +1,5 @@
+ import Mock from 'mockjs2'
+-import { builder } from '../util'
++import { builder } from '../../util'
+ 
+ const info = options => {
+   console.log('options', options)
+diff --git a/src/router/generator-routers.js b/src/router/generator-routers.js
+index a5e5152..94876a6 100644
+--- a/src/router/generator-routers.js
++++ b/src/router/generator-routers.js
+@@ -1,5 +1,5 @@
+ // eslint-disable-next-line
+-import * as loginService from '@/api/login'
++import * as loginService from '@/api/example/login'
+ // eslint-disable-next-line
+ import { BasicLayout, BlankLayout, PageView, RouteView } from '@/layouts'
+ 
+@@ -10,49 +10,49 @@ const constantRouterComponents = {
+   BlankLayout: BlankLayout,
+   RouteView: RouteView,
+   PageView: PageView,
+-  '403': () => import(/* webpackChunkName: "error" */ '@/views/exception/403'),
+-  '404': () => import(/* webpackChunkName: "error" */ '@/views/exception/404'),
+-  '500': () => import(/* webpackChunkName: "error" */ '@/views/exception/500'),
++  '403': () => import(/* webpackChunkName: "error" */ '@/views/example/exception/403'),
++  '404': () => import(/* webpackChunkName: "error" */ '@/views/example/exception/404'),
++  '500': () => import(/* webpackChunkName: "error" */ '@/views/example/exception/500'),
+ 
+   // 你需要动态引入的页面组件
+-  Workplace: () => import('@/views/dashboard/Workplace'),
+-  Analysis: () => import('@/views/dashboard/Analysis'),
++  Workplace: () => import('@/views/example/dashboard/Workplace'),
++  Analysis: () => import('@/views/example/dashboard/Analysis'),
+ 
+   // form
+-  BasicForm: () => import('@/views/form/basicForm'),
+-  StepForm: () => import('@/views/form/stepForm/StepForm'),
+-  AdvanceForm: () => import('@/views/form/advancedForm/AdvancedForm'),
++  BasicForm: () => import('@/views/example/form/basicForm'),
++  StepForm: () => import('@/views/example/form/stepForm/StepForm'),
++  AdvanceForm: () => import('@/views/example/form/advancedForm/AdvancedForm'),
+ 
+   // list
+-  TableList: () => import('@/views/list/TableList'),
+-  StandardList: () => import('@/views/list/BasicList'),
+-  CardList: () => import('@/views/list/CardList'),
+-  SearchLayout: () => import('@/views/list/search/SearchLayout'),
+-  SearchArticles: () => import('@/views/list/search/Article'),
+-  SearchProjects: () => import('@/views/list/search/Projects'),
+-  SearchApplications: () => import('@/views/list/search/Applications'),
+-  ProfileBasic: () => import('@/views/profile/basic'),
+-  ProfileAdvanced: () => import('@/views/profile/advanced/Advanced'),
++  TableList: () => import('@/views/example/list/TableList'),
++  StandardList: () => import('@/views/example/list/BasicList'),
++  CardList: () => import('@/views/example/list/CardList'),
++  SearchLayout: () => import('@/views/example/list/search/SearchLayout'),
++  SearchArticles: () => import('@/views/example/list/search/Article'),
++  SearchProjects: () => import('@/views/example/list/search/Projects'),
++  SearchApplications: () => import('@/views/example/list/search/Applications'),
++  ProfileBasic: () => import('@/views/example/profile/basic'),
++  ProfileAdvanced: () => import('@/views/example/profile/advanced/Advanced'),
+ 
+   // result
+-  ResultSuccess: () => import(/* webpackChunkName: "result" */ '@/views/result/Success'),
+-  ResultFail: () => import(/* webpackChunkName: "result" */ '@/views/result/Error'),
++  ResultSuccess: () => import(/* webpackChunkName: "result" */ '@/views/example/result/Success'),
++  ResultFail: () => import(/* webpackChunkName: "result" */ '@/views/example/result/Error'),
+ 
+   // exception
+-  Exception403: () => import(/* webpackChunkName: "fail" */ '@/views/exception/403'),
+-  Exception404: () => import(/* webpackChunkName: "fail" */ '@/views/exception/404'),
+-  Exception500: () => import(/* webpackChunkName: "fail" */ '@/views/exception/500'),
++  Exception403: () => import(/* webpackChunkName: "fail" */ '@/views/example/exception/403'),
++  Exception404: () => import(/* webpackChunkName: "fail" */ '@/views/example/exception/404'),
++  Exception500: () => import(/* webpackChunkName: "fail" */ '@/views/example/exception/500'),
+ 
+   // account
+-  AccountCenter: () => import('@/views/account/center'),
+-  AccountSettings: () => import('@/views/account/settings/Index'),
+-  BasicSetting: () => import('@/views/account/settings/BasicSetting'),
+-  SecuritySettings: () => import('@/views/account/settings/Security'),
+-  CustomSettings: () => import('@/views/account/settings/Custom'),
+-  BindingSettings: () => import('@/views/account/settings/Binding'),
+-  NotificationSettings: () => import('@/views/account/settings/Notification')
+-
+-  // 'TestWork': () => import(/* webpackChunkName: "TestWork" */ '@/views/dashboard/TestWork')
++  AccountCenter: () => import('@/views/example/account/center'),
++  AccountSettings: () => import('@/views/example/account/settings/Index'),
++  BasicSetting: () => import('@/views/example/account/settings/BasicSetting'),
++  SecuritySettings: () => import('@/views/example/account/settings/Security'),
++  CustomSettings: () => import('@/views/example/account/settings/Custom'),
++  BindingSettings: () => import('@/views/example/account/settings/Binding'),
++  NotificationSettings: () => import('@/views/example/account/settings/Notification')
++
++  // 'TestWork': () => import(/* webpackChunkName: "TestWork" */ '@/views/example/dashboard/TestWork')
+ }
+ 
+ // 前端未找到页面路由（固定不用改）
+@@ -127,7 +127,7 @@ export const generator = (routerMap, parent) => {
+       // 该路由对应页面的 组件 :方案1
+       // component: constantRouterComponents[item.component || item.key],
+       // 该路由对应页面的 组件 :方案2 (动态加载)
+-      component: constantRouterComponents[item.component || item.key] || (() => import(`@/views/${item.component}`)),
++      component: constantRouterComponents[item.component || item.key] || (() => import(`@/views/example/${item.component}`)),
+ 
+       // meta: 页面标题, 菜单图标, 页面权限(供指令权限用，可去掉)
+       meta: {
+diff --git a/src/store/modules/user.js b/src/store/modules/user.js
+index 3d72421..627ed15 100644
+--- a/src/store/modules/user.js
++++ b/src/store/modules/user.js
+@@ -1,6 +1,6 @@
+ import storage from 'store'
+ import expirePlugin from 'store/plugins/expire'
+-import { login, getInfo, logout } from '@/api/login'
++import { login, getInfo, logout } from '@/api/example/login'
+ import { ACCESS_TOKEN } from '@/store/mutation-types'
+ import { welcome } from '@/utils/util'
+ 
+diff --git a/src/utils/request.js b/src/utils/request.js
+index d7c8671..3842239 100644
+--- a/src/utils/request.js
++++ b/src/utils/request.js
+@@ -2,6 +2,7 @@ import axios from 'axios'
+ import store from '@/store'
+ import storage from 'store'
+ import notification from 'ant-design-vue/es/notification'
++import message from 'ant-design-vue/es/message'
+ import { VueAxios } from './axios'
+ import { ACCESS_TOKEN } from '@/store/mutation-types'
+ 
+@@ -41,6 +42,14 @@ const errorHandler = (error) => {
+   return Promise.reject(error)
+ }
+ 
++// 消息拦截处理器
++const messageHandler = data => {
++  if (data.message && data.message !== '') {
++    data.code === 0 ? message.success(data.message) : message.error(data.message)
++  }
++  return data
++}
++
+ // request interceptor
+ request.interceptors.request.use(config => {
+   const token = storage.get(ACCESS_TOKEN)
+@@ -53,9 +62,13 @@ request.interceptors.request.use(config => {
+ }, errorHandler)
+ 
+ // response interceptor
++/*
+ request.interceptors.response.use((response) => {
+   return response.data
+ }, errorHandler)
++*/
++
++request.interceptors.response.use((response) => messageHandler(response.data), errorHandler)
+ 
+ const installer = {
+   vm: {},
+diff --git a/src/views/Dashboard.vue b/src/views/Dashboard.vue
+new file mode 100644
+index 0000000..a6b5b2a
+--- /dev/null
++++ b/src/views/Dashboard.vue
+@@ -0,0 +1,13 @@
++<template>
++  <div>Hello World!</div>
++</template>
++
++<script>
++export default {
++  name: 'Dashboard'
++}
++</script>
++
++<style scoped>
++
++</style>
+diff --git a/src/views/account/center/page/Article.vue b/src/views/account/center/page/Article.vue
+index 724c07c..8955300 100644
+--- a/src/views/account/center/page/Article.vue
++++ b/src/views/account/center/page/Article.vue
+@@ -32,7 +32,7 @@
+ 
+ <script>
+ import { ArticleListContent } from '@/components'
+-import IconText from '@/views/list/search/components/IconText'
++import IconText from '@/views/example/list/search/components/IconText'
+ 
+ export default {
+   name: 'Article',
+diff --git a/src/views/dashboard/Workplace.vue b/src/views/dashboard/Workplace.vue
+index 47d7cad..3dd57de 100644
+--- a/src/views/dashboard/Workplace.vue
++++ b/src/views/dashboard/Workplace.vue
+@@ -137,7 +137,7 @@ import { mapState } from 'vuex'
+ import { PageHeaderWrapper } from '@ant-design-vue/pro-layout'
+ import { Radar } from '@/components'
+ 
+-import { getRoleList, getServiceList } from '@/api/manage'
++import { getRoleList, getServiceList } from '@/api/example/manage'
+ 
+ const DataSet = require('@antv/data-set')
+ 
+diff --git a/src/views/list/QueryList.vue b/src/views/list/QueryList.vue
+index b3a2ca5..d5b8d02 100644
+--- a/src/views/list/QueryList.vue
++++ b/src/views/list/QueryList.vue
+@@ -9,8 +9,8 @@
+ import ATextarea from 'ant-design-vue/es/input/TextArea'
+ import AInput from 'ant-design-vue/es/input/Input'
+ // 动态切换组件
+-import List from '@/views/list/table/List'
+-import Edit from '@/views/list/table/Edit'
++import List from '@/views/example/list/table/List'
++import Edit from '@/views/example/list/table/Edit'
+ 
+ export default {
+   name: 'TableListWrapper',
+diff --git a/src/views/list/TableList.vue b/src/views/list/TableList.vue
+index 986eb2b..5398e19 100644
+--- a/src/views/list/TableList.vue
++++ b/src/views/list/TableList.vue
+@@ -121,7 +121,7 @@
+ <script>
+ import moment from 'moment'
+ import { STable, Ellipsis } from '@/components'
+-import { getRoleList, getServiceList } from '@/api/manage'
++import { getRoleList, getServiceList } from '@/api/example/manage'
+ 
+ import StepByStepModal from './modules/StepByStepModal'
+ import CreateForm from './modules/CreateForm'
+diff --git a/src/views/list/table/List.vue b/src/views/list/table/List.vue
+index 8e5da0b..20300db 100644
+--- a/src/views/list/table/List.vue
++++ b/src/views/list/table/List.vue
+@@ -117,7 +117,7 @@
+ <script>
+ import moment from 'moment'
+ import { STable } from '@/components'
+-import { getRoleList, getServiceList } from '@/api/manage'
++import { getRoleList, getServiceList } from '@/api/example/manage'
+ 
+ export default {
+   name: 'TableList',
+diff --git a/src/views/other/TreeList.vue b/src/views/other/TreeList.vue
+index 3f8a16f..20eb8fa 100644
+--- a/src/views/other/TreeList.vue
++++ b/src/views/other/TreeList.vue
+@@ -53,7 +53,7 @@
+ import STree from '@/components/Tree/Tree'
+ import { STable } from '@/components'
+ import OrgModal from './modules/OrgModal'
+-import { getOrgTree, getServiceList } from '@/api/manage'
++import { getOrgTree, getServiceList } from '@/api/example/manage'
+ 
+ export default {
+   name: 'TreeList',
+diff --git a/src/views/other/UserList.vue b/src/views/other/UserList.vue
+index 692f351..8df4884 100644
+--- a/src/views/other/UserList.vue
++++ b/src/views/other/UserList.vue
+@@ -164,7 +164,7 @@
+ <script>
+ import pick from 'lodash.pick'
+ import { STable } from '@/components'
+-import { getRoleList, getServiceList } from '@/api/manage'
++import { getRoleList, getServiceList } from '@/api/example/manage'
+ import { PERMISSION_ENUM } from '@/core/permission/permission'
+ 
+ const STATUS = {
+diff --git a/src/views/other/modules/RoleModal.vue b/src/views/other/modules/RoleModal.vue
+index 1998d77..da55e07 100644
+--- a/src/views/other/modules/RoleModal.vue
++++ b/src/views/other/modules/RoleModal.vue
+@@ -22,7 +22,7 @@
+ </template>
+ 
+ <script>
+-import { getPermissions } from '@/api/manage'
++import { getPermissions } from '@/api/example/manage'
+ import pick from 'lodash.pick'
+ 
+ export default {
+diff --git a/src/views/user/Login.vue b/src/views/user/Login.vue
+index df6556d..bf5fe8f 100644
+--- a/src/views/user/Login.vue
++++ b/src/views/user/Login.vue
+@@ -118,7 +118,7 @@ import md5 from 'md5'
+ import TwoStepCaptcha from '@/components/tools/TwoStepCaptcha'
+ import { mapActions } from 'vuex'
+ import { timeFix } from '@/utils/util'
+-import { getSmsCaptcha, get2step } from '@/api/login'
++import { getSmsCaptcha, get2step } from '@/api/example/login'
+ 
+ export default {
+   components: {
+diff --git a/src/views/user/Register.vue b/src/views/user/Register.vue
+index 5c006a1..8dc9b68 100644
+--- a/src/views/user/Register.vue
++++ b/src/views/user/Register.vue
+@@ -96,7 +96,7 @@
+ </template>
+ 
+ <script>
+-import { getSmsCaptcha } from '@/api/login'
++import { getSmsCaptcha } from '@/api/example/login'
+ import { deviceMixin } from '@/store/device-mixin'
+ import { scorePassword } from '@/utils/util'
+ 
+-- 
+2.39.0.windows.2
+

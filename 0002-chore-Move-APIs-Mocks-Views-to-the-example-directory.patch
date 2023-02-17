@@ -1,0 +1,1187 @@
+From d165e16563041ed3c881ea3da5b728e12dee3678 Mon Sep 17 00:00:00 2001
+From: Wjinlei <freebufer.wang@gmail.com>
+Date: Fri, 17 Feb 2023 14:52:44 +0800
+Subject: [PATCH 2/2] chore: Move APIs, Mocks, Views to the example directory
+
+---
+ src/api/{ => example}/login.js                |   0
+ src/api/{ => example}/manage.js               |   0
+ src/mock/services/{ => example}/article.js    |   0
+ src/mock/services/{ => example}/auth.js       |   0
+ src/mock/services/{ => example}/manage.js     |   0
+ src/mock/services/{ => example}/other.js      |   0
+ src/mock/services/{ => example}/tagCloud.js   |   0
+ src/mock/services/{ => example}/user.js       |   0
+ src/views/{ => example}/404.vue               |   0
+ .../{ => example}/account/center/index.vue    |   0
+ .../{ => example}/account/center/page/App.vue |   0
+ .../account/center/page/Article.vue           |   0
+ .../account/center/page/Project.vue           |   0
+ .../account/center/page/index.js              |   0
+ .../account/settings/AvatarModal.vue          |   0
+ .../account/settings/BasicSetting.vue         |   0
+ .../account/settings/Binding.vue              |   0
+ .../{ => example}/account/settings/Custom.vue |   0
+ .../{ => example}/account/settings/Index.vue  |   0
+ .../account/settings/Notification.vue         |   0
+ .../account/settings/Security.vue             |   0
+ .../{ => example}/dashboard/Analysis.vue      |   0
+ src/views/{ => example}/dashboard/Monitor.vue |   0
+ .../{ => example}/dashboard/TestWork.vue      |   0
+ .../{ => example}/dashboard/Workplace.less    |   0
+ .../{ => example}/dashboard/Workplace.vue     |   0
+ src/views/example/exception/403.vue           |  20 ++
+ src/views/example/exception/404.vue           |  20 ++
+ src/views/example/exception/500.vue           |  20 ++
+ .../form/advancedForm/AdvancedForm.vue        |   0
+ .../form/advancedForm/RepositoryForm.vue      |   0
+ .../form/advancedForm/TaskForm.vue            |   0
+ .../{ => example}/form/basicForm/index.vue    |   0
+ .../{ => example}/form/stepForm/Step1.vue     |   0
+ .../{ => example}/form/stepForm/Step2.vue     |   0
+ .../{ => example}/form/stepForm/Step3.vue     |   0
+ .../{ => example}/form/stepForm/StepForm.vue  |   0
+ src/views/{ => example}/list/BasicList.vue    |   0
+ src/views/{ => example}/list/CardList.vue     |   0
+ src/views/{ => example}/list/QueryList.vue    |   0
+ src/views/{ => example}/list/TableList.vue    |   0
+ .../{ => example}/list/components/Info.vue    |   0
+ .../{ => example}/list/modules/CreateForm.vue |   0
+ .../list/modules/StepByStepModal.vue          |   0
+ .../{ => example}/list/modules/TaskForm.vue   |   0
+ .../list/search/Applications.vue              |   0
+ .../{ => example}/list/search/Article.vue     |   0
+ .../{ => example}/list/search/Projects.vue    |   0
+ .../list/search/SearchLayout.vue              |   0
+ .../list/search/components/CardInfo.vue       |   0
+ .../list/search/components/IconText.vue       |   0
+ src/views/{ => example}/list/table/Edit.vue   |   0
+ src/views/{ => example}/list/table/List.vue   |   0
+ src/views/{ => example}/other/BigForm.vue     |   0
+ .../{ => example}/other/IconSelectorView.vue  |   0
+ .../{ => example}/other/PermissionList.vue    |   0
+ src/views/{ => example}/other/RoleList.vue    |   0
+ .../other/TableInnerEditList.vue              |   0
+ src/views/{ => example}/other/TreeList.vue    |   0
+ src/views/{ => example}/other/UserList.vue    |   0
+ .../{ => example}/other/modules/OrgModal.vue  |   0
+ .../{ => example}/other/modules/RoleModal.vue |   0
+ .../profile/advanced/Advanced.vue             |   0
+ .../{ => example}/profile/basic/index.vue     |   0
+ src/views/{ => example}/result/Error.vue      |   0
+ src/views/{ => example}/result/Success.vue    |   0
+ src/views/example/user/Login.vue              | 330 ++++++++++++++++++
+ src/views/example/user/Register.vue           | 316 +++++++++++++++++
+ src/views/example/user/RegisterResult.vue     |  44 +++
+ 69 files changed, 750 insertions(+)
+ rename src/api/{ => example}/login.js (100%)
+ rename src/api/{ => example}/manage.js (100%)
+ rename src/mock/services/{ => example}/article.js (100%)
+ rename src/mock/services/{ => example}/auth.js (100%)
+ rename src/mock/services/{ => example}/manage.js (100%)
+ rename src/mock/services/{ => example}/other.js (100%)
+ rename src/mock/services/{ => example}/tagCloud.js (100%)
+ rename src/mock/services/{ => example}/user.js (100%)
+ rename src/views/{ => example}/404.vue (100%)
+ rename src/views/{ => example}/account/center/index.vue (100%)
+ rename src/views/{ => example}/account/center/page/App.vue (100%)
+ rename src/views/{ => example}/account/center/page/Article.vue (100%)
+ rename src/views/{ => example}/account/center/page/Project.vue (100%)
+ rename src/views/{ => example}/account/center/page/index.js (100%)
+ rename src/views/{ => example}/account/settings/AvatarModal.vue (100%)
+ rename src/views/{ => example}/account/settings/BasicSetting.vue (100%)
+ rename src/views/{ => example}/account/settings/Binding.vue (100%)
+ rename src/views/{ => example}/account/settings/Custom.vue (100%)
+ rename src/views/{ => example}/account/settings/Index.vue (100%)
+ rename src/views/{ => example}/account/settings/Notification.vue (100%)
+ rename src/views/{ => example}/account/settings/Security.vue (100%)
+ rename src/views/{ => example}/dashboard/Analysis.vue (100%)
+ rename src/views/{ => example}/dashboard/Monitor.vue (100%)
+ rename src/views/{ => example}/dashboard/TestWork.vue (100%)
+ rename src/views/{ => example}/dashboard/Workplace.less (100%)
+ rename src/views/{ => example}/dashboard/Workplace.vue (100%)
+ create mode 100644 src/views/example/exception/403.vue
+ create mode 100644 src/views/example/exception/404.vue
+ create mode 100644 src/views/example/exception/500.vue
+ rename src/views/{ => example}/form/advancedForm/AdvancedForm.vue (100%)
+ rename src/views/{ => example}/form/advancedForm/RepositoryForm.vue (100%)
+ rename src/views/{ => example}/form/advancedForm/TaskForm.vue (100%)
+ rename src/views/{ => example}/form/basicForm/index.vue (100%)
+ rename src/views/{ => example}/form/stepForm/Step1.vue (100%)
+ rename src/views/{ => example}/form/stepForm/Step2.vue (100%)
+ rename src/views/{ => example}/form/stepForm/Step3.vue (100%)
+ rename src/views/{ => example}/form/stepForm/StepForm.vue (100%)
+ rename src/views/{ => example}/list/BasicList.vue (100%)
+ rename src/views/{ => example}/list/CardList.vue (100%)
+ rename src/views/{ => example}/list/QueryList.vue (100%)
+ rename src/views/{ => example}/list/TableList.vue (100%)
+ rename src/views/{ => example}/list/components/Info.vue (100%)
+ rename src/views/{ => example}/list/modules/CreateForm.vue (100%)
+ rename src/views/{ => example}/list/modules/StepByStepModal.vue (100%)
+ rename src/views/{ => example}/list/modules/TaskForm.vue (100%)
+ rename src/views/{ => example}/list/search/Applications.vue (100%)
+ rename src/views/{ => example}/list/search/Article.vue (100%)
+ rename src/views/{ => example}/list/search/Projects.vue (100%)
+ rename src/views/{ => example}/list/search/SearchLayout.vue (100%)
+ rename src/views/{ => example}/list/search/components/CardInfo.vue (100%)
+ rename src/views/{ => example}/list/search/components/IconText.vue (100%)
+ rename src/views/{ => example}/list/table/Edit.vue (100%)
+ rename src/views/{ => example}/list/table/List.vue (100%)
+ rename src/views/{ => example}/other/BigForm.vue (100%)
+ rename src/views/{ => example}/other/IconSelectorView.vue (100%)
+ rename src/views/{ => example}/other/PermissionList.vue (100%)
+ rename src/views/{ => example}/other/RoleList.vue (100%)
+ rename src/views/{ => example}/other/TableInnerEditList.vue (100%)
+ rename src/views/{ => example}/other/TreeList.vue (100%)
+ rename src/views/{ => example}/other/UserList.vue (100%)
+ rename src/views/{ => example}/other/modules/OrgModal.vue (100%)
+ rename src/views/{ => example}/other/modules/RoleModal.vue (100%)
+ rename src/views/{ => example}/profile/advanced/Advanced.vue (100%)
+ rename src/views/{ => example}/profile/basic/index.vue (100%)
+ rename src/views/{ => example}/result/Error.vue (100%)
+ rename src/views/{ => example}/result/Success.vue (100%)
+ create mode 100644 src/views/example/user/Login.vue
+ create mode 100644 src/views/example/user/Register.vue
+ create mode 100644 src/views/example/user/RegisterResult.vue
+
+diff --git a/src/api/login.js b/src/api/example/login.js
+similarity index 100%
+rename from src/api/login.js
+rename to src/api/example/login.js
+diff --git a/src/api/manage.js b/src/api/example/manage.js
+similarity index 100%
+rename from src/api/manage.js
+rename to src/api/example/manage.js
+diff --git a/src/mock/services/article.js b/src/mock/services/example/article.js
+similarity index 100%
+rename from src/mock/services/article.js
+rename to src/mock/services/example/article.js
+diff --git a/src/mock/services/auth.js b/src/mock/services/example/auth.js
+similarity index 100%
+rename from src/mock/services/auth.js
+rename to src/mock/services/example/auth.js
+diff --git a/src/mock/services/manage.js b/src/mock/services/example/manage.js
+similarity index 100%
+rename from src/mock/services/manage.js
+rename to src/mock/services/example/manage.js
+diff --git a/src/mock/services/other.js b/src/mock/services/example/other.js
+similarity index 100%
+rename from src/mock/services/other.js
+rename to src/mock/services/example/other.js
+diff --git a/src/mock/services/tagCloud.js b/src/mock/services/example/tagCloud.js
+similarity index 100%
+rename from src/mock/services/tagCloud.js
+rename to src/mock/services/example/tagCloud.js
+diff --git a/src/mock/services/user.js b/src/mock/services/example/user.js
+similarity index 100%
+rename from src/mock/services/user.js
+rename to src/mock/services/example/user.js
+diff --git a/src/views/404.vue b/src/views/example/404.vue
+similarity index 100%
+rename from src/views/404.vue
+rename to src/views/example/404.vue
+diff --git a/src/views/account/center/index.vue b/src/views/example/account/center/index.vue
+similarity index 100%
+rename from src/views/account/center/index.vue
+rename to src/views/example/account/center/index.vue
+diff --git a/src/views/account/center/page/App.vue b/src/views/example/account/center/page/App.vue
+similarity index 100%
+rename from src/views/account/center/page/App.vue
+rename to src/views/example/account/center/page/App.vue
+diff --git a/src/views/account/center/page/Article.vue b/src/views/example/account/center/page/Article.vue
+similarity index 100%
+rename from src/views/account/center/page/Article.vue
+rename to src/views/example/account/center/page/Article.vue
+diff --git a/src/views/account/center/page/Project.vue b/src/views/example/account/center/page/Project.vue
+similarity index 100%
+rename from src/views/account/center/page/Project.vue
+rename to src/views/example/account/center/page/Project.vue
+diff --git a/src/views/account/center/page/index.js b/src/views/example/account/center/page/index.js
+similarity index 100%
+rename from src/views/account/center/page/index.js
+rename to src/views/example/account/center/page/index.js
+diff --git a/src/views/account/settings/AvatarModal.vue b/src/views/example/account/settings/AvatarModal.vue
+similarity index 100%
+rename from src/views/account/settings/AvatarModal.vue
+rename to src/views/example/account/settings/AvatarModal.vue
+diff --git a/src/views/account/settings/BasicSetting.vue b/src/views/example/account/settings/BasicSetting.vue
+similarity index 100%
+rename from src/views/account/settings/BasicSetting.vue
+rename to src/views/example/account/settings/BasicSetting.vue
+diff --git a/src/views/account/settings/Binding.vue b/src/views/example/account/settings/Binding.vue
+similarity index 100%
+rename from src/views/account/settings/Binding.vue
+rename to src/views/example/account/settings/Binding.vue
+diff --git a/src/views/account/settings/Custom.vue b/src/views/example/account/settings/Custom.vue
+similarity index 100%
+rename from src/views/account/settings/Custom.vue
+rename to src/views/example/account/settings/Custom.vue
+diff --git a/src/views/account/settings/Index.vue b/src/views/example/account/settings/Index.vue
+similarity index 100%
+rename from src/views/account/settings/Index.vue
+rename to src/views/example/account/settings/Index.vue
+diff --git a/src/views/account/settings/Notification.vue b/src/views/example/account/settings/Notification.vue
+similarity index 100%
+rename from src/views/account/settings/Notification.vue
+rename to src/views/example/account/settings/Notification.vue
+diff --git a/src/views/account/settings/Security.vue b/src/views/example/account/settings/Security.vue
+similarity index 100%
+rename from src/views/account/settings/Security.vue
+rename to src/views/example/account/settings/Security.vue
+diff --git a/src/views/dashboard/Analysis.vue b/src/views/example/dashboard/Analysis.vue
+similarity index 100%
+rename from src/views/dashboard/Analysis.vue
+rename to src/views/example/dashboard/Analysis.vue
+diff --git a/src/views/dashboard/Monitor.vue b/src/views/example/dashboard/Monitor.vue
+similarity index 100%
+rename from src/views/dashboard/Monitor.vue
+rename to src/views/example/dashboard/Monitor.vue
+diff --git a/src/views/dashboard/TestWork.vue b/src/views/example/dashboard/TestWork.vue
+similarity index 100%
+rename from src/views/dashboard/TestWork.vue
+rename to src/views/example/dashboard/TestWork.vue
+diff --git a/src/views/dashboard/Workplace.less b/src/views/example/dashboard/Workplace.less
+similarity index 100%
+rename from src/views/dashboard/Workplace.less
+rename to src/views/example/dashboard/Workplace.less
+diff --git a/src/views/dashboard/Workplace.vue b/src/views/example/dashboard/Workplace.vue
+similarity index 100%
+rename from src/views/dashboard/Workplace.vue
+rename to src/views/example/dashboard/Workplace.vue
+diff --git a/src/views/example/exception/403.vue b/src/views/example/exception/403.vue
+new file mode 100644
+index 0000000..fb1bf36
+--- /dev/null
++++ b/src/views/example/exception/403.vue
+@@ -0,0 +1,20 @@
++<template>
++  <a-result status="403" title="403" sub-title="Sorry, you don't have access to this page.">
++    <template #extra>
++      <a-button type="primary" @click="toHome">
++        Back Home
++      </a-button>
++    </template>
++  </a-result>
++</template>
++
++<script>
++export default {
++  name: 'Exception403',
++  methods: {
++    toHome () {
++      this.$router.push({ path: '/' })
++    }
++  }
++}
++</script>
+diff --git a/src/views/example/exception/404.vue b/src/views/example/exception/404.vue
+new file mode 100644
+index 0000000..3142e7b
+--- /dev/null
++++ b/src/views/example/exception/404.vue
+@@ -0,0 +1,20 @@
++<template>
++  <a-result status="404" title="404" sub-title="Sorry, the page you visited does not exist.">
++    <template #extra>
++      <a-button type="primary" @click="toHome">
++        Back Home
++      </a-button>
++    </template>
++  </a-result>
++</template>
++
++<script>
++export default {
++  name: 'Exception404',
++  methods: {
++    toHome () {
++      this.$router.push({ path: '/' })
++    }
++  }
++}
++</script>
+diff --git a/src/views/example/exception/500.vue b/src/views/example/exception/500.vue
+new file mode 100644
+index 0000000..2770b77
+--- /dev/null
++++ b/src/views/example/exception/500.vue
+@@ -0,0 +1,20 @@
++<template>
++  <a-result status="500" title="500" sub-title="Sorry, the server is reporting an error.">
++    <template #extra>
++      <a-button type="primary" @click="toHome">
++        Back Home
++      </a-button>
++    </template>
++  </a-result>
++</template>
++
++<script>
++  export default {
++    name: 'Exception500',
++    methods: {
++      toHome () {
++        this.$router.push({ path: '/' })
++      }
++    }
++  }
++</script>
+diff --git a/src/views/form/advancedForm/AdvancedForm.vue b/src/views/example/form/advancedForm/AdvancedForm.vue
+similarity index 100%
+rename from src/views/form/advancedForm/AdvancedForm.vue
+rename to src/views/example/form/advancedForm/AdvancedForm.vue
+diff --git a/src/views/form/advancedForm/RepositoryForm.vue b/src/views/example/form/advancedForm/RepositoryForm.vue
+similarity index 100%
+rename from src/views/form/advancedForm/RepositoryForm.vue
+rename to src/views/example/form/advancedForm/RepositoryForm.vue
+diff --git a/src/views/form/advancedForm/TaskForm.vue b/src/views/example/form/advancedForm/TaskForm.vue
+similarity index 100%
+rename from src/views/form/advancedForm/TaskForm.vue
+rename to src/views/example/form/advancedForm/TaskForm.vue
+diff --git a/src/views/form/basicForm/index.vue b/src/views/example/form/basicForm/index.vue
+similarity index 100%
+rename from src/views/form/basicForm/index.vue
+rename to src/views/example/form/basicForm/index.vue
+diff --git a/src/views/form/stepForm/Step1.vue b/src/views/example/form/stepForm/Step1.vue
+similarity index 100%
+rename from src/views/form/stepForm/Step1.vue
+rename to src/views/example/form/stepForm/Step1.vue
+diff --git a/src/views/form/stepForm/Step2.vue b/src/views/example/form/stepForm/Step2.vue
+similarity index 100%
+rename from src/views/form/stepForm/Step2.vue
+rename to src/views/example/form/stepForm/Step2.vue
+diff --git a/src/views/form/stepForm/Step3.vue b/src/views/example/form/stepForm/Step3.vue
+similarity index 100%
+rename from src/views/form/stepForm/Step3.vue
+rename to src/views/example/form/stepForm/Step3.vue
+diff --git a/src/views/form/stepForm/StepForm.vue b/src/views/example/form/stepForm/StepForm.vue
+similarity index 100%
+rename from src/views/form/stepForm/StepForm.vue
+rename to src/views/example/form/stepForm/StepForm.vue
+diff --git a/src/views/list/BasicList.vue b/src/views/example/list/BasicList.vue
+similarity index 100%
+rename from src/views/list/BasicList.vue
+rename to src/views/example/list/BasicList.vue
+diff --git a/src/views/list/CardList.vue b/src/views/example/list/CardList.vue
+similarity index 100%
+rename from src/views/list/CardList.vue
+rename to src/views/example/list/CardList.vue
+diff --git a/src/views/list/QueryList.vue b/src/views/example/list/QueryList.vue
+similarity index 100%
+rename from src/views/list/QueryList.vue
+rename to src/views/example/list/QueryList.vue
+diff --git a/src/views/list/TableList.vue b/src/views/example/list/TableList.vue
+similarity index 100%
+rename from src/views/list/TableList.vue
+rename to src/views/example/list/TableList.vue
+diff --git a/src/views/list/components/Info.vue b/src/views/example/list/components/Info.vue
+similarity index 100%
+rename from src/views/list/components/Info.vue
+rename to src/views/example/list/components/Info.vue
+diff --git a/src/views/list/modules/CreateForm.vue b/src/views/example/list/modules/CreateForm.vue
+similarity index 100%
+rename from src/views/list/modules/CreateForm.vue
+rename to src/views/example/list/modules/CreateForm.vue
+diff --git a/src/views/list/modules/StepByStepModal.vue b/src/views/example/list/modules/StepByStepModal.vue
+similarity index 100%
+rename from src/views/list/modules/StepByStepModal.vue
+rename to src/views/example/list/modules/StepByStepModal.vue
+diff --git a/src/views/list/modules/TaskForm.vue b/src/views/example/list/modules/TaskForm.vue
+similarity index 100%
+rename from src/views/list/modules/TaskForm.vue
+rename to src/views/example/list/modules/TaskForm.vue
+diff --git a/src/views/list/search/Applications.vue b/src/views/example/list/search/Applications.vue
+similarity index 100%
+rename from src/views/list/search/Applications.vue
+rename to src/views/example/list/search/Applications.vue
+diff --git a/src/views/list/search/Article.vue b/src/views/example/list/search/Article.vue
+similarity index 100%
+rename from src/views/list/search/Article.vue
+rename to src/views/example/list/search/Article.vue
+diff --git a/src/views/list/search/Projects.vue b/src/views/example/list/search/Projects.vue
+similarity index 100%
+rename from src/views/list/search/Projects.vue
+rename to src/views/example/list/search/Projects.vue
+diff --git a/src/views/list/search/SearchLayout.vue b/src/views/example/list/search/SearchLayout.vue
+similarity index 100%
+rename from src/views/list/search/SearchLayout.vue
+rename to src/views/example/list/search/SearchLayout.vue
+diff --git a/src/views/list/search/components/CardInfo.vue b/src/views/example/list/search/components/CardInfo.vue
+similarity index 100%
+rename from src/views/list/search/components/CardInfo.vue
+rename to src/views/example/list/search/components/CardInfo.vue
+diff --git a/src/views/list/search/components/IconText.vue b/src/views/example/list/search/components/IconText.vue
+similarity index 100%
+rename from src/views/list/search/components/IconText.vue
+rename to src/views/example/list/search/components/IconText.vue
+diff --git a/src/views/list/table/Edit.vue b/src/views/example/list/table/Edit.vue
+similarity index 100%
+rename from src/views/list/table/Edit.vue
+rename to src/views/example/list/table/Edit.vue
+diff --git a/src/views/list/table/List.vue b/src/views/example/list/table/List.vue
+similarity index 100%
+rename from src/views/list/table/List.vue
+rename to src/views/example/list/table/List.vue
+diff --git a/src/views/other/BigForm.vue b/src/views/example/other/BigForm.vue
+similarity index 100%
+rename from src/views/other/BigForm.vue
+rename to src/views/example/other/BigForm.vue
+diff --git a/src/views/other/IconSelectorView.vue b/src/views/example/other/IconSelectorView.vue
+similarity index 100%
+rename from src/views/other/IconSelectorView.vue
+rename to src/views/example/other/IconSelectorView.vue
+diff --git a/src/views/other/PermissionList.vue b/src/views/example/other/PermissionList.vue
+similarity index 100%
+rename from src/views/other/PermissionList.vue
+rename to src/views/example/other/PermissionList.vue
+diff --git a/src/views/other/RoleList.vue b/src/views/example/other/RoleList.vue
+similarity index 100%
+rename from src/views/other/RoleList.vue
+rename to src/views/example/other/RoleList.vue
+diff --git a/src/views/other/TableInnerEditList.vue b/src/views/example/other/TableInnerEditList.vue
+similarity index 100%
+rename from src/views/other/TableInnerEditList.vue
+rename to src/views/example/other/TableInnerEditList.vue
+diff --git a/src/views/other/TreeList.vue b/src/views/example/other/TreeList.vue
+similarity index 100%
+rename from src/views/other/TreeList.vue
+rename to src/views/example/other/TreeList.vue
+diff --git a/src/views/other/UserList.vue b/src/views/example/other/UserList.vue
+similarity index 100%
+rename from src/views/other/UserList.vue
+rename to src/views/example/other/UserList.vue
+diff --git a/src/views/other/modules/OrgModal.vue b/src/views/example/other/modules/OrgModal.vue
+similarity index 100%
+rename from src/views/other/modules/OrgModal.vue
+rename to src/views/example/other/modules/OrgModal.vue
+diff --git a/src/views/other/modules/RoleModal.vue b/src/views/example/other/modules/RoleModal.vue
+similarity index 100%
+rename from src/views/other/modules/RoleModal.vue
+rename to src/views/example/other/modules/RoleModal.vue
+diff --git a/src/views/profile/advanced/Advanced.vue b/src/views/example/profile/advanced/Advanced.vue
+similarity index 100%
+rename from src/views/profile/advanced/Advanced.vue
+rename to src/views/example/profile/advanced/Advanced.vue
+diff --git a/src/views/profile/basic/index.vue b/src/views/example/profile/basic/index.vue
+similarity index 100%
+rename from src/views/profile/basic/index.vue
+rename to src/views/example/profile/basic/index.vue
+diff --git a/src/views/result/Error.vue b/src/views/example/result/Error.vue
+similarity index 100%
+rename from src/views/result/Error.vue
+rename to src/views/example/result/Error.vue
+diff --git a/src/views/result/Success.vue b/src/views/example/result/Success.vue
+similarity index 100%
+rename from src/views/result/Success.vue
+rename to src/views/example/result/Success.vue
+diff --git a/src/views/example/user/Login.vue b/src/views/example/user/Login.vue
+new file mode 100644
+index 0000000..bf5fe8f
+--- /dev/null
++++ b/src/views/example/user/Login.vue
+@@ -0,0 +1,330 @@
++<template>
++  <div class="main">
++    <a-form
++      id="formLogin"
++      class="user-layout-login"
++      ref="formLogin"
++      :form="form"
++      @submit="handleSubmit"
++    >
++      <a-tabs
++        :activeKey="customActiveKey"
++        :tabBarStyle="{ textAlign: 'center', borderBottom: 'unset' }"
++        @change="handleTabClick"
++      >
++        <a-tab-pane key="tab1" :tab="$t('user.login.tab-login-credentials')">
++          <a-alert v-if="isLoginError" type="error" showIcon style="margin-bottom: 24px;" :message="$t('user.login.message-invalid-credentials')" />
++          <a-form-item>
++            <a-input
++              size="large"
++              type="text"
++              :placeholder="$t('user.login.username.placeholder')"
++              v-decorator="[
++                'username',
++                {rules: [{ required: true, message: $t('user.userName.required') }, { validator: handleUsernameOrEmail }], validateTrigger: 'change'}
++              ]"
++            >
++              <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
++            </a-input>
++          </a-form-item>
++
++          <a-form-item>
++            <a-input-password
++              size="large"
++              :placeholder="$t('user.login.password.placeholder')"
++              v-decorator="[
++                'password',
++                {rules: [{ required: true, message: $t('user.password.required') }], validateTrigger: 'blur'}
++              ]"
++            >
++              <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
++            </a-input-password>
++          </a-form-item>
++        </a-tab-pane>
++        <a-tab-pane key="tab2" :tab="$t('user.login.tab-login-mobile')">
++          <a-form-item>
++            <a-input size="large" type="text" :placeholder="$t('user.login.mobile.placeholder')" v-decorator="['mobile', {rules: [{ required: true, pattern: /^1[34578]\d{9}$/, message: $t('user.login.mobile.placeholder') }], validateTrigger: 'change'}]">
++              <a-icon slot="prefix" type="mobile" :style="{ color: 'rgba(0,0,0,.25)' }"/>
++            </a-input>
++          </a-form-item>
++
++          <a-row :gutter="16">
++            <a-col class="gutter-row" :span="16">
++              <a-form-item>
++                <a-input size="large" type="text" :placeholder="$t('user.login.mobile.verification-code.placeholder')" v-decorator="['captcha', {rules: [{ required: true, message: $t('user.verification-code.required') }], validateTrigger: 'blur'}]">
++                  <a-icon slot="prefix" type="mail" :style="{ color: 'rgba(0,0,0,.25)' }"/>
++                </a-input>
++              </a-form-item>
++            </a-col>
++            <a-col class="gutter-row" :span="8">
++              <a-button
++                class="getCaptcha"
++                tabindex="-1"
++                :disabled="state.smsSendBtn"
++                @click.stop.prevent="getCaptcha"
++                v-text="!state.smsSendBtn && $t('user.register.get-verification-code') || (state.time+' s')"
++              ></a-button>
++            </a-col>
++          </a-row>
++        </a-tab-pane>
++      </a-tabs>
++
++      <a-form-item>
++        <a-checkbox v-decorator="['rememberMe', { valuePropName: 'checked' }]">{{ $t('user.login.remember-me') }}</a-checkbox>
++        <router-link
++          :to="{ name: 'recover', params: { user: 'aaa'} }"
++          class="forge-password"
++          style="float: right;"
++        >{{ $t('user.login.forgot-password') }}</router-link>
++      </a-form-item>
++
++      <a-form-item style="margin-top:24px">
++        <a-button
++          size="large"
++          type="primary"
++          htmlType="submit"
++          class="login-button"
++          :loading="state.loginBtn"
++          :disabled="state.loginBtn"
++        >{{ $t('user.login.login') }}</a-button>
++      </a-form-item>
++
++      <div class="user-login-other">
++        <span>{{ $t('user.login.sign-in-with') }}</span>
++        <a>
++          <a-icon class="item-icon" type="alipay-circle"></a-icon>
++        </a>
++        <a>
++          <a-icon class="item-icon" type="taobao-circle"></a-icon>
++        </a>
++        <a>
++          <a-icon class="item-icon" type="weibo-circle"></a-icon>
++        </a>
++        <router-link class="register" :to="{ name: 'register' }">{{ $t('user.login.signup') }}</router-link>
++      </div>
++    </a-form>
++
++    <two-step-captcha
++      v-if="requiredTwoStepCaptcha"
++      :visible="stepCaptchaVisible"
++      @success="stepCaptchaSuccess"
++      @cancel="stepCaptchaCancel"
++    ></two-step-captcha>
++  </div>
++</template>
++
++<script>
++import md5 from 'md5'
++import TwoStepCaptcha from '@/components/tools/TwoStepCaptcha'
++import { mapActions } from 'vuex'
++import { timeFix } from '@/utils/util'
++import { getSmsCaptcha, get2step } from '@/api/example/login'
++
++export default {
++  components: {
++    TwoStepCaptcha
++  },
++  data () {
++    return {
++      customActiveKey: 'tab1',
++      loginBtn: false,
++      // login type: 0 email, 1 username, 2 telephone
++      loginType: 0,
++      isLoginError: false,
++      requiredTwoStepCaptcha: false,
++      stepCaptchaVisible: false,
++      form: this.$form.createForm(this),
++      state: {
++        time: 60,
++        loginBtn: false,
++        // login type: 0 email, 1 username, 2 telephone
++        loginType: 0,
++        smsSendBtn: false
++      }
++    }
++  },
++  created () {
++    get2step({ })
++      .then(res => {
++        this.requiredTwoStepCaptcha = res.result.stepCode
++      })
++      .catch(() => {
++        this.requiredTwoStepCaptcha = false
++      })
++    // this.requiredTwoStepCaptcha = true
++  },
++  methods: {
++    ...mapActions(['Login', 'Logout']),
++    // handler
++    handleUsernameOrEmail (rule, value, callback) {
++      const { state } = this
++      const regex = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/
++      if (regex.test(value)) {
++        state.loginType = 0
++      } else {
++        state.loginType = 1
++      }
++      callback()
++    },
++    handleTabClick (key) {
++      this.customActiveKey = key
++      // this.form.resetFields()
++    },
++    handleSubmit (e) {
++      e.preventDefault()
++      const {
++        form: { validateFields },
++        state,
++        customActiveKey,
++        Login
++      } = this
++
++      state.loginBtn = true
++
++      const validateFieldsKey = customActiveKey === 'tab1' ? ['username', 'password'] : ['mobile', 'captcha']
++
++      validateFields(validateFieldsKey, { force: true }, (err, values) => {
++        if (!err) {
++          console.log('login form', values)
++          const loginParams = { ...values }
++          delete loginParams.username
++          loginParams[!state.loginType ? 'email' : 'username'] = values.username
++          loginParams.password = md5(values.password)
++          Login(loginParams)
++            .then((res) => this.loginSuccess(res))
++            .catch(err => this.requestFailed(err))
++            .finally(() => {
++              state.loginBtn = false
++            })
++        } else {
++          setTimeout(() => {
++            state.loginBtn = false
++          }, 600)
++        }
++      })
++    },
++    getCaptcha (e) {
++      e.preventDefault()
++      const { form: { validateFields }, state } = this
++
++      validateFields(['mobile'], { force: true }, (err, values) => {
++        if (!err) {
++          state.smsSendBtn = true
++
++          const interval = window.setInterval(() => {
++            if (state.time-- <= 0) {
++              state.time = 60
++              state.smsSendBtn = false
++              window.clearInterval(interval)
++            }
++          }, 1000)
++
++          const hide = this.$message.loading('验证码发送中..', 0)
++          getSmsCaptcha({ mobile: values.mobile }).then(res => {
++            setTimeout(hide, 2500)
++            this.$notification['success']({
++              message: '提示',
++              description: '验证码获取成功，您的验证码为：' + res.result.captcha,
++              duration: 8
++            })
++          }).catch(err => {
++            setTimeout(hide, 1)
++            clearInterval(interval)
++            state.time = 60
++            state.smsSendBtn = false
++            this.requestFailed(err)
++          })
++        }
++      })
++    },
++    stepCaptchaSuccess () {
++      this.loginSuccess()
++    },
++    stepCaptchaCancel () {
++      this.Logout().then(() => {
++        this.loginBtn = false
++        this.stepCaptchaVisible = false
++      })
++    },
++    loginSuccess (res) {
++      console.log(res)
++      // check res.homePage define, set $router.push name res.homePage
++      // Why not enter onComplete
++      /*
++      this.$router.push({ name: 'analysis' }, () => {
++        console.log('onComplete')
++        this.$notification.success({
++          message: '欢迎',
++          description: `${timeFix()}，欢迎回来`
++        })
++      })
++      */
++      this.$router.push({ path: '/' })
++      // 延迟 1 秒显示欢迎信息
++      setTimeout(() => {
++        this.$notification.success({
++          message: '欢迎',
++          description: `${timeFix()}，欢迎回来`
++        })
++      }, 1000)
++      this.isLoginError = false
++    },
++    requestFailed (err) {
++      this.isLoginError = true
++      this.$notification['error']({
++        message: '错误',
++        description: ((err.response || {}).data || {}).message || '请求出现错误，请稍后再试',
++        duration: 4
++      })
++    }
++  }
++}
++</script>
++
++<style lang="less" scoped>
++.user-layout-login {
++  label {
++    font-size: 14px;
++  }
++
++  .getCaptcha {
++    display: block;
++    width: 100%;
++    height: 40px;
++  }
++
++  .forge-password {
++    font-size: 14px;
++  }
++
++  button.login-button {
++    padding: 0 15px;
++    font-size: 16px;
++    height: 40px;
++    width: 100%;
++  }
++
++  .user-login-other {
++    text-align: left;
++    margin-top: 24px;
++    line-height: 22px;
++
++    .item-icon {
++      font-size: 24px;
++      color: rgba(0, 0, 0, 0.2);
++      margin-left: 16px;
++      vertical-align: middle;
++      cursor: pointer;
++      transition: color 0.3s;
++
++      &:hover {
++        color: #1890ff;
++      }
++    }
++
++    .register {
++      float: right;
++    }
++  }
++}
++</style>
+diff --git a/src/views/example/user/Register.vue b/src/views/example/user/Register.vue
+new file mode 100644
+index 0000000..8dc9b68
+--- /dev/null
++++ b/src/views/example/user/Register.vue
+@@ -0,0 +1,316 @@
++<template>
++  <div class="main user-layout-register">
++    <h3><span>{{ $t('user.register.register') }}</span></h3>
++    <a-form ref="formRegister" :form="form" id="formRegister">
++      <a-form-item>
++        <a-input
++          size="large"
++          type="text"
++          :placeholder="$t('user.register.email.placeholder')"
++          v-decorator="['email', {rules: [{ required: true, type: 'email', message: $t('user.email.required') }], validateTrigger: ['change', 'blur']}]"
++        ></a-input>
++      </a-form-item>
++
++      <a-popover
++        placement="rightTop"
++        :trigger="['focus']"
++        :getPopupContainer="(trigger) => trigger.parentElement"
++        v-model="state.passwordLevelChecked">
++        <template slot="content">
++          <div :style="{ width: '240px' }" >
++            <div :class="['user-register', passwordLevelClass]">{{ $t(passwordLevelName) }}</div>
++            <a-progress :percent="state.percent" :showInfo="false" :strokeColor=" passwordLevelColor " />
++            <div style="margin-top: 10px;">
++              <span>{{ $t('user.register.password.popover-message') }}
++              </span>
++            </div>
++          </div>
++        </template>
++        <a-form-item>
++          <a-input-password
++            size="large"
++            @click="handlePasswordInputClick"
++            :placeholder="$t('user.register.password.placeholder')"
++            v-decorator="['password', {rules: [{ required: true, message: $t('user.password.required') }, { validator: this.handlePasswordLevel }], validateTrigger: ['change', 'blur']}]"
++          ></a-input-password>
++        </a-form-item>
++      </a-popover>
++
++      <a-form-item>
++        <a-input-password
++          size="large"
++          :placeholder="$t('user.register.confirm-password.placeholder')"
++          v-decorator="['password2', {rules: [{ required: true, message: $t('user.password.required') }, { validator: this.handlePasswordCheck }], validateTrigger: ['change', 'blur']}]"
++        ></a-input-password>
++      </a-form-item>
++
++      <a-form-item>
++        <a-input size="large" :placeholder="$t('user.login.mobile.placeholder')" v-decorator="['mobile', {rules: [{ required: true, message: $t('user.phone-number.required'), pattern: /^1[3456789]\d{9}$/ }, { validator: this.handlePhoneCheck } ], validateTrigger: ['change', 'blur'] }]">
++          <a-select slot="addonBefore" size="large" defaultValue="+86">
++            <a-select-option value="+86">+86</a-select-option>
++            <a-select-option value="+87">+87</a-select-option>
++          </a-select>
++        </a-input>
++      </a-form-item>
++      <!--<a-input-group size="large" compact>
++            <a-select style="width: 20%" size="large" defaultValue="+86">
++              <a-select-option value="+86">+86</a-select-option>
++              <a-select-option value="+87">+87</a-select-option>
++            </a-select>
++            <a-input style="width: 80%" size="large" placeholder="11 位手机号"></a-input>
++          </a-input-group>-->
++
++      <a-row :gutter="16">
++        <a-col class="gutter-row" :span="16">
++          <a-form-item>
++            <a-input size="large" type="text" :placeholder="$t('user.login.mobile.verification-code.placeholder')" v-decorator="['captcha', {rules: [{ required: true, message: '请输入验证码' }], validateTrigger: 'blur'}]">
++              <a-icon slot="prefix" type="mail" :style="{ color: 'rgba(0,0,0,.25)' }"/>
++            </a-input>
++          </a-form-item>
++        </a-col>
++        <a-col class="gutter-row" :span="8">
++          <a-button
++            class="getCaptcha"
++            size="large"
++            :disabled="state.smsSendBtn"
++            @click.stop.prevent="getCaptcha"
++            v-text="!state.smsSendBtn && $t('user.register.get-verification-code')||(state.time+' s')"></a-button>
++        </a-col>
++      </a-row>
++
++      <a-form-item>
++        <a-button
++          size="large"
++          type="primary"
++          htmlType="submit"
++          class="register-button"
++          :loading="registerBtn"
++          @click.stop.prevent="handleSubmit"
++          :disabled="registerBtn">{{ $t('user.register.register') }}
++        </a-button>
++        <router-link class="login" :to="{ name: 'login' }">{{ $t('user.register.sign-in') }}</router-link>
++      </a-form-item>
++
++    </a-form>
++  </div>
++</template>
++
++<script>
++import { getSmsCaptcha } from '@/api/example/login'
++import { deviceMixin } from '@/store/device-mixin'
++import { scorePassword } from '@/utils/util'
++
++const levelNames = {
++  0: 'user.password.strength.short',
++  1: 'user.password.strength.low',
++  2: 'user.password.strength.medium',
++  3: 'user.password.strength.strong'
++}
++const levelClass = {
++  0: 'error',
++  1: 'error',
++  2: 'warning',
++  3: 'success'
++}
++const levelColor = {
++  0: '#ff0000',
++  1: '#ff0000',
++  2: '#ff7e05',
++  3: '#52c41a'
++}
++export default {
++  name: 'Register',
++  components: {
++  },
++  mixins: [deviceMixin],
++  data () {
++    return {
++      form: this.$form.createForm(this),
++
++      state: {
++        time: 60,
++        level: 0,
++        smsSendBtn: false,
++        passwordLevel: 0,
++        passwordLevelChecked: false,
++        percent: 10,
++        progressColor: '#FF0000'
++      },
++      registerBtn: false
++    }
++  },
++  computed: {
++    passwordLevelClass () {
++      return levelClass[this.state.passwordLevel]
++    },
++    passwordLevelName () {
++      return levelNames[this.state.passwordLevel]
++    },
++    passwordLevelColor () {
++      return levelColor[this.state.passwordLevel]
++    }
++  },
++  methods: {
++    handlePasswordLevel (rule, value, callback) {
++      if (!value) {
++       return callback()
++      }
++      console.log('scorePassword ; ', scorePassword(value))
++      if (value.length >= 6) {
++        if (scorePassword(value) >= 30) {
++          this.state.level = 1
++        }
++        if (scorePassword(value) >= 60) {
++        this.state.level = 2
++        }
++        if (scorePassword(value) >= 80) {
++        this.state.level = 3
++        }
++      } else {
++        this.state.level = 0
++        callback(new Error(this.$t('user.password.strength.msg')))
++      }
++      this.state.passwordLevel = this.state.level
++      this.state.percent = this.state.level * 33
++
++      callback()
++    },
++
++    handlePasswordCheck (rule, value, callback) {
++      const password = this.form.getFieldValue('password')
++      // console.log('value', value)
++      if (value === undefined) {
++        callback(new Error(this.$t('user.password.required')))
++      }
++      if (value && password && value.trim() !== password.trim()) {
++        callback(new Error(this.$t('user.password.twice.msg')))
++      }
++      callback()
++    },
++
++    handlePhoneCheck (rule, value, callback) {
++      console.log('handlePhoneCheck, rule:', rule)
++      console.log('handlePhoneCheck, value', value)
++      console.log('handlePhoneCheck, callback', callback)
++
++      callback()
++    },
++
++    handlePasswordInputClick () {
++      if (!this.isMobile) {
++        this.state.passwordLevelChecked = true
++        return
++      }
++      this.state.passwordLevelChecked = false
++    },
++
++    handleSubmit () {
++      const { form: { validateFields }, state, $router } = this
++      validateFields({ force: true }, (err, values) => {
++        if (!err) {
++          state.passwordLevelChecked = false
++          $router.push({ name: 'registerResult', params: { ...values } })
++        }
++      })
++    },
++
++    getCaptcha (e) {
++      e.preventDefault()
++      const { form: { validateFields }, state, $message, $notification } = this
++
++      validateFields(['mobile'], { force: true },
++        (err, values) => {
++          if (!err) {
++            state.smsSendBtn = true
++
++            const interval = window.setInterval(() => {
++              if (state.time-- <= 0) {
++                state.time = 60
++                state.smsSendBtn = false
++                window.clearInterval(interval)
++              }
++            }, 1000)
++
++            const hide = $message.loading('验证码发送中..', 0)
++
++            getSmsCaptcha({ mobile: values.mobile }).then(res => {
++              setTimeout(hide, 2500)
++              $notification['success']({
++                message: '提示',
++                description: '验证码获取成功，您的验证码为：' + res.result.captcha,
++                duration: 8
++              })
++            }).catch(err => {
++              setTimeout(hide, 1)
++              clearInterval(interval)
++              state.time = 60
++              state.smsSendBtn = false
++              this.requestFailed(err)
++            })
++          }
++        }
++      )
++    },
++    requestFailed (err) {
++      this.$notification['error']({
++        message: '错误',
++        description: ((err.response || {}).data || {}).message || '请求出现错误，请稍后再试',
++        duration: 4
++      })
++      this.registerBtn = false
++    }
++  },
++  watch: {
++    'state.passwordLevel' (val) {
++      console.log(val)
++    }
++  }
++}
++</script>
++<style lang="less">
++  .user-register {
++
++    &.error {
++      color: #ff0000;
++    }
++
++    &.warning {
++      color: #ff7e05;
++    }
++
++    &.success {
++      color: #52c41a;
++    }
++
++  }
++
++  .user-layout-register {
++    .ant-input-group-addon:first-child {
++      background-color: #fff;
++    }
++  }
++</style>
++<style lang="less" scoped>
++  .user-layout-register {
++
++    & > h3 {
++      font-size: 16px;
++      margin-bottom: 20px;
++    }
++
++    .getCaptcha {
++      display: block;
++      width: 100%;
++      height: 40px;
++    }
++
++    .register-button {
++      width: 50%;
++    }
++
++    .login {
++      float: right;
++      line-height: 40px;
++    }
++  }
++</style>
+diff --git a/src/views/example/user/RegisterResult.vue b/src/views/example/user/RegisterResult.vue
+new file mode 100644
+index 0000000..e76511f
+--- /dev/null
++++ b/src/views/example/user/RegisterResult.vue
+@@ -0,0 +1,44 @@
++<template>
++  <a-result
++    :isSuccess="true"
++    :content="false"
++    :title="email"
++    :sub-title="description">
++
++    <template #extra>
++      <a-button size="large" type="primary">查看邮箱</a-button>
++      <a-button size="large" style="margin-left: 8px" @click="goHomeHandle">返回首页</a-button>
++    </template>
++
++  </a-result>
++</template>
++
++<script>
++export default {
++  name: 'RegisterResult',
++  data () {
++    return {
++      description: '激活邮件已发送到你的邮箱中，邮件有效期为24小时。请及时登录邮箱，点击邮件中的链接激活帐户。',
++      form: {}
++    }
++  },
++  computed: {
++    email () {
++      const v = this.form && this.form.email || 'xxx'
++      return `你的账户：${v} 注册成功`
++    }
++  },
++  created () {
++    this.form = this.$route.params
++  },
++  methods: {
++    goHomeHandle () {
++      this.$router.push({ name: 'login' })
++    }
++  }
++}
++</script>
++
++<style scoped>
++
++</style>
+-- 
+2.39.0.windows.2
+
